@@ -34,6 +34,9 @@
         display: block;
         position:fixed !important;
       }
+        ul{
+            padding-left: 10px !important;
+        }
     </style>
   </head>
   <body>
@@ -69,13 +72,9 @@
           </div>
         </header>
           
-        <nav id="location-nav" class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-<!--
-            <input id="show-listings" class="mdl-button mdl-js-button mdl-js-ripple-effect" type="button" value="Show Listings">
-          <input id="hide-listings" class="mdl-button mdl-js-button" type="button" value="Hide Listings">
--->
+        <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
             <ul data-bind="foreach: locationList" style="list-style-type: none;">
-				<li data-bind="text: title, click: $parent.setLocation" class="mdl-button mdl-js-button" type="button"></li>
+				<li data-bind="text: title" class="mdl-button mdl-js-button" type="button"></li>
 			</ul>
         </nav>
       </div>

@@ -1,98 +1,51 @@
 //Initialize Google Map Location
-        var map;
-      // Create a new blank array for all the listing markers.
-      var markers = [];
-      function initMap() {
-        // Constructor creates a new map - only center and zoom are required.
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat:  37.762906, lng: -122.244408},
-          zoom: 15,
-          mapTypeControl: false
-        });
-          
-//Create List using knockout.js
-         
-    //Create Object      
-    var Location = function(data) {
-        this.title = ko.observable(data.title);
-        this.lat = ko.observable(data.lat);
-        this.lng = ko.observable(data.lng);
-        this.address = ko.observable(data.address);
+
+var map;
+
+function initMap() {
+    //Create map options
+    var mapOptions ={
+        center: {lat:  37.762906, lng: -122.244408},
+        zoom: 15,
+        mapTypeControl: false,
+        mapTypeId: 'roadmap'
     };
 
-    //Take the locations array, and create each item into an object
+
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+
+    //Create the Location Movel View from the locations array
     var LocationViewModel = function() {
-    var self = this;
+        var self = this;
 
+        //create a location array
+        this.locationList = ko.observableArray([]);
 
-    this.locationList = ko.observableArray([]);
-        
-    locations.forEach(function(locItem) {
-        self.locationList.push( new Location(locItem) );
-        console.log(locItem);
-    });
-
+        // create the list of locations from the model
+        locations.forEach(function(locItem) {
+            self.locationList.push(new Location(locItem) );
+        });
     };
 
+    //Create Location Object      
+    var Location = function(data) {
+        this.title = ko.observable(data.title); 
+
+        this.lat = ko.observable(data.location.lat);
+        this.lng = ko.observable(data.location.lng);
+        this.address = ko.observable(data.address);
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(data.location.lat, data.location.lng),
+            title: this.title,
+            map: map
+          });
+
+        // Set the marker as a knockout observable
+        this.marker = ko.observable(marker);
+    };
+    
     ko.applyBindings( new LocationViewModel() );
-          
-          
-          
-//Google Maps Information show 
-        var largeInfowindow = new google.maps.InfoWindow();
-        // The following group uses the location array to create an array of markers on initialize.
-        for (var i = 0; i < locations.length; i++) {
-          // Get the position from the location array.
-          var position = locations[i].location;
-          var title = locations[i].title;
-            var address = locations[i].address;
-          // Create a marker per location, and put into markers array.
-           var marker = new google.maps.Marker({
-            position: position,
-            title: title,
-            address: address,
-            animation: google.maps.Animation.DROP,
-            id: i
-          });
-          // Push the marker to our array of markers.
-          markers.push(marker);
-          // Create an onclick event to open an infowindow at each marker.
-          marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
-          });
-        }
-        document.getElementById('show-listings').addEventListener('click', showListings);
-        document.getElementById('hide-listings').addEventListener('click', hideListings);
-      }
-      // This function populates the infowindow when the marker is clicked. We'll only allow
-      // one infowindow which will open at the marker that is clicked, and populate based
-      // on that markers position.
-      function populateInfoWindow(marker, infowindow) {
-        // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
-          infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '<br/>' + marker.address + '</div>');
-          infowindow.open(map, marker);
-          // Make sure the marker property is cleared if the infowindow is closed.
-          infowindow.addListener('closeclick', function() {
-            infowindow.marker = null;
-          });
-        }
-      }
-      // This function will loop through the markers array and display them all.
-      function showListings() {
-        var bounds = new google.maps.LatLngBounds();
-        // Extend the boundaries of the map for each marker and display the marker
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
-          bounds.extend(markers[i].position);
-        }
-        map.fitBounds(bounds);
-      }
-      // This function will loop through the listings and hide them all.
-      function hideListings() {
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(null);
-        }
-      }
-   
+
+}
+
