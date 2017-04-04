@@ -100,20 +100,23 @@
       function initMap() {
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 40.7413549, lng: -73.9980244},
-          zoom: 13,
+          center: {lat:  37.762906, lng: -122.244408},
+          zoom: 15,
           mapTypeControl: false
         });
 
         // These are the real estate listings that will be shown to the user.
         // Normally we'd have these in a database instead.
         var locations = [
-          {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-          {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-          {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-          {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-          {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-          {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+            {title: 'Qs Halal Chicken', location: {lat: 37.7647818268752, lng: -122.2454328766948}},
+            {title: 'Scolaris Good Eats', location: {lat: 37.762817, lng: -122.244392}},
+            {title: 'Sidestreet Pho', location: {lat: 37.762783,  lng: -122.245213}},
+            {title: 'Mama Papa Lithuania', location: {lat: 37.762029, lng: -122.244925}},
+            {title: 'Blue Danube', location: {lat: 37.763386,  lng: -122.243859}},
+            {title: 'Yumi Sushi', location: {lat: 37.764834,  lng: -122.242019}},
+            {title: 'American Oak', location: {lat: 37.765856, lng: -122.242368}},
+            {title: 'Yumi Sushi', location: {lat: 37.765973, lng: -122.240179}}
+        
         ];
 
         var largeInfowindow = new google.maps.InfoWindow();
