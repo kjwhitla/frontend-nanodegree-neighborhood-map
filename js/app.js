@@ -14,7 +14,7 @@
          
     //Create Object      
     var Location = function(data) {
-        this.name = ko.observable(data.name);
+        this.title = ko.observable(data.title);
         this.lat = ko.observable(data.lat);
         this.lng = ko.observable(data.lng);
         this.address = ko.observable(data.address);
@@ -24,7 +24,9 @@
     var LocationViewModel = function() {
     var self = this;
 
+
     this.locationList = ko.observableArray([]);
+        
     locations.forEach(function(locItem) {
         self.locationList.push( new Location(locItem) );
         console.log(locItem);
@@ -32,10 +34,7 @@
 
     };
 
-    ko.applyBindings(new LocationViewModel() );
-          
-
-          
+    ko.applyBindings( new LocationViewModel() );
           
           
           
