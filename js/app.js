@@ -9,7 +9,31 @@
           zoom: 15,
           mapTypeControl: false
         });
-      
+          
+//Create List using knockout.js
+         
+    //Create Object      
+    var Location = function(data) {
+        this.name = data.name;
+        this.lat = data.lat;
+        this.lng = data.lng;
+        this.address = data.address;
+    };
+
+    //Take the locations array, and create each item into an object
+    var LocationViewModel = function() {
+    var self = this;
+
+    this.locationList = ko.observableArray([]);
+    locations.forEach(function(locItem) {
+        self.locationList.push( new Location(locItem) );
+        console.log(locItem);
+    });
+
+    };
+
+    ko.applyBindings(new LocationViewModel() );
+          
           
 //Google Maps Information show 
         var largeInfowindow = new google.maps.InfoWindow();
