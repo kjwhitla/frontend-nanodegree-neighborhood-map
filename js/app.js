@@ -13,6 +13,9 @@ function initMap() {
 
 
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    
+    //Info window moved outside of object, this makes sure only one box can be opened at a time.        
+    var largeInfowindow = new google.maps.InfoWindow();
 
 
     //Create the Location Movel View from the locations array
@@ -54,8 +57,7 @@ function initMap() {
                 });
             }
         }
-        
-        var largeInfowindow = new google.maps.InfoWindow();
+
 
         // Create an onclick event to open an infowindow at each marker.
         marker.addListener('click', function() {
@@ -67,9 +69,6 @@ function initMap() {
     };
     
     ko.applyBindings( new LocationViewModel() );
-    
-     
-    
     
     
 //intital map end    
