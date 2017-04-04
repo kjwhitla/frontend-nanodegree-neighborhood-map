@@ -1,0 +1,6 @@
+*.gif
+*.psd
+*.ai
+.DS_Store
+node_module/
+node_modules/
