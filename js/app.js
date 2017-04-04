@@ -14,10 +14,10 @@
          
     //Create Object      
     var Location = function(data) {
-        this.name = data.name;
-        this.lat = data.lat;
-        this.lng = data.lng;
-        this.address = data.address;
+        this.name = ko.observable(data.name);
+        this.lat = ko.observable(data.lat);
+        this.lng = ko.observable(data.lng);
+        this.address = ko.observable(data.address);
     };
 
     //Take the locations array, and create each item into an object
@@ -33,6 +33,10 @@
     };
 
     ko.applyBindings(new LocationViewModel() );
+          
+
+          
+          
           
           
 //Google Maps Information show 
