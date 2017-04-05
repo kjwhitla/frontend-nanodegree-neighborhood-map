@@ -1,7 +1,7 @@
 //MVO Locations Array of my favorite Restaurants
 
 var locations = [ {
-    title: 'Qs Halal Chicken',
+    name: 'Qs Halal Chicken',
     location: {
         lat: 37.7647818268752, lng: -122.2454328766948
     },
@@ -10,7 +10,7 @@ var locations = [ {
 
 ,
 {
-    title: 'Scolaris Good Eats',
+    name: 'Scolaris Good Eats',
     location: {
         lat: 37.762817, lng: -122.244392
     },
@@ -19,7 +19,7 @@ var locations = [ {
 
 ,
 {
-    title: 'Sidestreet Pho',
+    name: 'Sidestreet Pho',
     location: {
         lat: 37.762783, lng: -122.245213
     },
@@ -28,7 +28,7 @@ var locations = [ {
 
 ,
 {
-    title: 'Mama Papa Lithuania',
+    name: 'Mama Papa Lithuania',
     location: {
         lat: 37.762029, lng: -122.244925
     },
@@ -37,7 +37,7 @@ var locations = [ {
 
 ,
 {
-    title: 'Blue Danube',
+    name: 'Blue Danube',
     location: {
         lat: 37.763386, lng: -122.243859
     },
@@ -46,7 +46,7 @@ var locations = [ {
 
 ,
 {
-    title: 'Yumi Sushi',
+    name: 'Yumi Sushi',
     location: {
         lat: 37.764834, lng: -122.242019
     },
@@ -55,7 +55,7 @@ var locations = [ {
 
 ,
 {
-    title: 'American Oak',
+    name: 'American Oak',
     location: {
         lat: 37.765856, lng: -122.242368
     },
@@ -64,7 +64,7 @@ var locations = [ {
 
 ,
 {
-    title: 'Speisekammer',
+    name: 'Speisekammer',
     location: {
         lat: 37.765973, lng: -122.240179
     },

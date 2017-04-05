@@ -10,40 +10,22 @@ var largeInfowindow = new google.maps.InfoWindow({
 //Create Location Object      
 var Location = function(data) {
     var marker;
-    this.title = ko.observable(data.title); 
+    this.name = ko.observable(data.name); 
     this.lat = ko.observable(data.location.lat);
     this.lng = ko.observable(data.location.lng);
     this.address = ko.observable(data.address);
-//    marker = new google.maps.Marker({
-//        position: new google.maps.LatLng(data.location.lat, data.location.lng),
-//        title: data.title,
-//        address: data.address,
-//        map: map
-//      });
-
-//    function populateInfoWindow(marker, infowindow) {
-//    // Check to make sure the infowindow is not already opened on this marker.
-//        if (infowindow.marker != marker) {
-//        infowindow.marker = marker;
-//        infowindow.setContent('<div>' + marker.title + '<br/>' + marker.address + '</div>');
-//        infowindow.open(map, marker);
-//        // Make sure the marker property is cleared if the infowindow is closed.
-//            infowindow.addListener('closeclick', function() {
-//             infowindow.marker = null;
-//            });
-//        }
-//    }
-
-
-    // Create an onclick event to open an infowindow at each marker.
-//    marker.addListener('click', function() {
-//        populateInfoWindow(this, largeInfowindow);
-//    });
-
+    
+    marker = new google.maps.Marker({
+        position: new google.maps.LatLng(this.lat, this.lng),
+        name: this.name,
+        address: this.address,
+        map: map
+      });
+    
     // Set the marker as a knockout observable
-//    this.marker = ko.observable(marker);
-};
+    this.marker = ko.observable(marker);
 
+};
 
 var LocationViewModel = function() {
     'use strict';
@@ -72,17 +54,36 @@ var LocationViewModel = function() {
         });
     };
 
-       
-
-        
-
+  
     google.maps.event.addDomListener(window, 'load', function() {
-         self.initialize();
+        self.initialize();
+        self.createLocations();
     });
     
 };
 
-//intital map end  
 
 //Launch everything :)    
 ko.applyBindings( new LocationViewModel() );
+
+
+//    function populateInfoWindow(marker, infowindow) {
+//    // Check to make sure the infowindow is not already opened on this marker.
+//        if (infowindow.marker != marker) {
+//        infowindow.marker = marker;
+//        infowindow.setContent('<div>' + marker.title + '<br/>' + marker.address + '</div>');
+//        infowindow.open(map, marker);
+//        // Make sure the marker property is cleared if the infowindow is closed.
+//            infowindow.addListener('closeclick', function() {
+//             infowindow.marker = null;
+//            });
+//        }
+//    }
+
+
+    // Create an onclick event to open an infowindow at each marker.
+//    marker.addListener('click', function() {
+//        populateInfoWindow(this, largeInfowindow);
+//    });
+
+
