@@ -49,22 +49,20 @@
         <div class="mdl-layout__header-row">
           <span class="mdl-layout-title">My Favorite Restaurants</span>
           <div class="mdl-layout-spacer"></div>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-              <i class="material-icons">search</i>
-            </label>
-            <div class="mdl-textfield__expandable-holder">
-<!--              <input class="mdl-textfield__input" type="text" id="search" data-bind="submit: filterLocations">-->
-                <input class="mdl-textfield__input" type="text" id="search">
-              <label class="mdl-textfield__label" for="search">Enter your query...</label>
-            </div>
+          <div class="mdl-textfield mdl-js-textfield">
+<!--                 <div class="mdl-textfield mdl-js-textfield">-->
+<!--               <input class="mdl-textfield__input" type="text" name="search" placeholder=" Filter" data-bind="textInput: search"> -->
+              <input type="text" name="search" placeholder=" Filter" autocomplete="off" data-bind="textInput: search">
+                
+<!--              <label class="mdl-textfield__label" for="search">Enter your query...</label>-->
+<!--            </div>-->
           </div>
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <li class="mdl-menu__item">Github</li>
-            <li class="mdl-menu__item">ReadME</li>
+            <li class="mdl-menu__item" ><a href="https://github.com/kjwhitla/frontend-nanodegree-neighborhood-map" target="_blank" >Github</a></li>
+            <li class="mdl-menu__item"><a  href="https://github.com/kjwhitla/frontend-nanodegree-neighborhood-map/blob/master/README.md" target="_blank">ReadME</a></li>
           </ul>
         </div>
       </header>
@@ -77,7 +75,7 @@
           </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-            <ul data-bind="foreach: locationList" style="list-style-type: none;">
+            <ul data-bind="foreach: filteredLocationlist" style="list-style-type: none;">
 				<li data-bind="text: name, click: $parent.locationClick" class="mdl-button mdl-js-button mdl-color-text--blue-grey-50" type="button"></li>
 			</ul>
         </nav>

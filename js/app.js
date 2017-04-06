@@ -1,13 +1,10 @@
-//Initialize Google Map Location
-
+//This initializes the Google Map Location variable
 var map;
 
-//Info window moved outside of object, this makes sure only one box can be opened at a time.       
-var largeInfowindow = new google.maps.InfoWindow({
-    content: 'Hello World'
-});
+//This is for the Info window moved outside of object, this makes sure only one box can be opened at a time.       
+var largeInfowindow = new google.maps.InfoWindow();
 
-//Create Location Object      
+//This creates the Location object      
 var Location = function(data) {
     var marker;
     this.name = ko.observable(data.name); 
@@ -29,11 +26,11 @@ var Location = function(data) {
 var LocationViewModel = function() {
     'use strict';
     var self = this;
-    //create a location array
+    //This creates a location array
     self.locationList = ko.observableArray([]);
     
-    //create a location array for search
-//    self.filteredLocationlist = ko.observableArray([]);
+    //This creates a location array for search
+    self.filteredLocationlist = ko.observableArray([]);
     
     
     //This function initializes and creates the google map
@@ -87,8 +84,27 @@ var LocationViewModel = function() {
         setTimeout( function() { location.marker().setAnimation(null); }, 750);
     };
     
-    //This function will filter the locations based on what is searched
-    //TODO:
+    //This search is the value from search input text
+	self.search = ko.observable(''); 
+
+	 //This gets the search string and the length of the original location list
+	self.searchText = ko.computed(function () {
+		var userInput = self.search().toLowerCase();
+         //This function loops through each location in the list
+		for(var i = 0; i< self.locationList().length; i++) {
+             //This gets the current name
+            var locationName = self.locationList()[i].name().toLowerCase();
+            //If the name matches the search string, add the location to the filtered location list
+			if(locationName.indexOf(userInput) > -1) {
+                 self.filteredLocationlist.push(self.locationList()[i]);
+			// Set the map property of the marker to the map
+                self.locationList()[i].marker().setMap(map);
+			} else {
+                 // Set the map property of the marker to null so it won't be visible
+                self.locationList()[i].marker().setMap(null);
+			}
+		}
+	});
     
 
   //This listener looks for the loading of the page and launches the below functions
@@ -96,6 +112,7 @@ var LocationViewModel = function() {
         self.initialize();
         self.createLocations();
         self.locationClickFunc();
+        self.filteredLocationlist(self.locationList());
     });
     
 };
