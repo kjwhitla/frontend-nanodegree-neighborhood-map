@@ -2,9 +2,9 @@
 
 var map;
 
-//Info window moved outside of object, this makes sure only one box can be opened at a time.        
+//Info window moved outside of object, this makes sure only one box can be opened at a time.       
 var largeInfowindow = new google.maps.InfoWindow({
-    content: '<div><p>This is the default content</p></div>'
+    content: 'Hello World'
 });
 
 //Create Location Object      
@@ -65,13 +65,27 @@ var LocationViewModel = function() {
         });
     };
     
-    // Sets the currenter marker to bounce once when clicked
+    // Sets the current marker to bounce when clicked
     self.setMarkerAnimation = function(location) {
         location.marker().setAnimation(google.maps.Animation.BOUNCE);
         setTimeout( function() { location.marker().setAnimation(null); }, 750);
     };
     
-    
+    //This function handles the clicking on a location
+    self.locationClick = function(location) {
+        // Set the content for the information window
+        var locationContent = '<div><h5>' + location.name() + '</h5><p>' + location.address() + '</p></div>';
+        largeInfowindow.setContent(locationContent);
+
+        //This makes the viewpoint center on the location that you clicked
+        map.panTo(new google.maps.LatLng(location.lat(), location.lng()));
+
+        //This open the information window when the marker is clicked
+        largeInfowindow.open(map, location.marker());
+
+        // Current location marker will bounces once when clicked
+        self.setMarkerAnimation(location);
+    };
 
   //This listener looks for the loading of the page and launches the below functions
     google.maps.event.addDomListener(window, 'load', function() {
@@ -82,28 +96,5 @@ var LocationViewModel = function() {
     
 };
 
-
 //Launch everything :)    
 ko.applyBindings( new LocationViewModel() );
-
-
-//    function populateInfoWindow(marker, infowindow) {
-//    // Check to make sure the infowindow is not already opened on this marker.
-//        if (infowindow.marker != marker) {
-//        infowindow.marker = marker;
-//        infowindow.setContent('<div>' + marker.title + '<br/>' + marker.address + '</div>');
-//        infowindow.open(map, marker);
-//        // Make sure the marker property is cleared if the infowindow is closed.
-//            infowindow.addListener('closeclick', function() {
-//             infowindow.marker = null;
-//            });
-//        }
-//    }
-
-
-    // Create an onclick event to open an infowindow at each marker.
-//    marker.addListener('click', function() {
-//        populateInfoWindow(this, largeInfowindow);
-//    });
-
-
