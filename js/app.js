@@ -65,12 +65,6 @@ var LocationViewModel = function() {
         });
     };
     
-    // Sets the current marker to bounce when clicked
-    self.setMarkerAnimation = function(location) {
-        location.marker().setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout( function() { location.marker().setAnimation(null); }, 750);
-    };
-    
     //This function handles the clicking on a location
     self.locationClick = function(location) {
         // Set the content for the information window
@@ -86,6 +80,16 @@ var LocationViewModel = function() {
         // Current location marker will bounces once when clicked
         self.setMarkerAnimation(location);
     };
+    
+    //This function will cause the current marker to bounce when clicked
+    self.setMarkerAnimation = function(location) {
+        location.marker().setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout( function() { location.marker().setAnimation(null); }, 750);
+    };
+    
+    //This function will filter the locations based on what is searched
+    //TODO:
+    
 
   //This listener looks for the loading of the page and launches the below functions
     google.maps.event.addDomListener(window, 'load', function() {

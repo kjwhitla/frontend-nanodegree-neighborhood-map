@@ -78,7 +78,7 @@
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
             <ul data-bind="foreach: locationList" style="list-style-type: none;">
-				<li data-bind="text: name" class="mdl-button mdl-js-button mdl-color-text--blue-grey-50" type="button"></li>
+				<li data-bind="text: name, click: $parent.locationClick" class="mdl-button mdl-js-button mdl-color-text--blue-grey-50" type="button"></li>
 			</ul>
         </nav>
       </div>
