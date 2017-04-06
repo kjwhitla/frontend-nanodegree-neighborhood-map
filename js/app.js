@@ -11,12 +11,12 @@ var largeInfowindow = new google.maps.InfoWindow({
 var Location = function(data) {
     var marker;
     this.name = ko.observable(data.name); 
-    this.lat = ko.observable(data.location.lat);
-    this.lng = ko.observable(data.location.lng);
+    this.lat = ko.observable(data.lat);
+    this.lng = ko.observable(data.lng);
     this.address = ko.observable(data.address);
     
     marker = new google.maps.Marker({
-        position: new google.maps.LatLng(this.lat, this.lng),
+        position: new google.maps.LatLng(this.lat(), this.lng()),
         name: this.name,
         address: this.address,
         map: map
@@ -24,7 +24,6 @@ var Location = function(data) {
     
     // Set the marker as a knockout observable
     this.marker = ko.observable(marker);
-
 };
 
 var LocationViewModel = function() {
@@ -32,9 +31,12 @@ var LocationViewModel = function() {
     var self = this;
     //create a location array
     self.locationList = ko.observableArray([]);
+    
     //create a location array for search
 //    self.filteredLocationlist = ko.observableArray([]);
     
+    
+    //This function initializes and creates the google map
     self.initialize = function(){
         //Create map options
         var mapArea = document.getElementById('map');
@@ -47,17 +49,35 @@ var LocationViewModel = function() {
          map = new google.maps.Map(mapArea, mapOptions);
     };
     
+    //This function creates a list of locations from the model.
     self.createLocations = function(){
-        // create the list of locations from the model
-        locations.forEach(function(locItem) {
-            self.locationList.push(new Location(locItem) );
+        locations.forEach(function(loc) {
+            self.locationList.push(new Location(loc) );
         });
     };
+    
+    //This function sets up a listener for a click on each location
+    self.locationClickFunc = function() {
+        self.locationList().forEach(function(location) {
+          google.maps.event.addListener(location.marker(), 'click', function() {
+            self.locationClick(location);
+          });
+        });
+    };
+    
+    // Sets the currenter marker to bounce once when clicked
+    self.setMarkerAnimation = function(location) {
+        location.marker().setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout( function() { location.marker().setAnimation(null); }, 750);
+    };
+    
+    
 
-  
+  //This listener looks for the loading of the page and launches the below functions
     google.maps.event.addDomListener(window, 'load', function() {
         self.initialize();
         self.createLocations();
+        self.locationClickFunc();
     });
     
 };
