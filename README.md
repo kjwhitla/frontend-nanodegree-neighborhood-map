@@ -1,4 +1,4 @@
-##Keegan's "Neighborhood" Restaurant Map
+## Keegan's "Neighborhood" Restaurant Map
 
 To view the final project please view [this link](http://madebykeegan.com/frontend-nanodegree-mobile-portfolio/)
 

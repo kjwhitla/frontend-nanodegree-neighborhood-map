@@ -31,8 +31,7 @@ var LocationViewModel = function() {
     
     //This creates a location array for search
     self.filteredLocationlist = ko.observableArray([]);
-    
-    
+
     //This function initializes and creates the google map
     self.initialize = function(){
         //Create map options
@@ -83,38 +82,40 @@ var LocationViewModel = function() {
         location.marker().setAnimation(google.maps.Animation.BOUNCE);
         setTimeout( function() { location.marker().setAnimation(null); }, 750);
     };
-    
-    //This search is the value from search input text
-	self.search = ko.observable(''); 
+     
+    //This function handles the filtering of locations from the users search
+    self.queryLocations = function() {
+        //This sets the filtered location list array to an empty array
+        self.filteredLocationlist([]);
+        //This gets the search string and the length of the location list
+        var searchString = $('#q').val().toLowerCase();
+        var len = self.locationList().length;
 
-	 //This gets the search string and the length of the original location list
-	self.searchText = ko.computed(function () {
-		var userInput = self.search().toLowerCase();
-         //This function loops through each location in the list
-		for(var i = 0; i< self.locationList().length; i++) {
-             //This gets the current name
+        //This function loops through each location within the list
+        for (var i = 0; i < len; i++) {
+            //This grabs the current name of the location
             var locationName = self.locationList()[i].name().toLowerCase();
-            //If the name matches the search string, add the location to the filtered location list
-			if(locationName.indexOf(userInput) > -1) {
-                 self.filteredLocationlist.push(self.locationList()[i]);
-			// Set the map property of the marker to the map
-                self.locationList()[i].marker().setMap(map);
-			} else {
-                 // Set the map property of the marker to null so it won't be visible
-                self.locationList()[i].marker().setMap(null);
-			}
-		}
-	});
-    
 
-  //This listener looks for the loading of the page and launches the below functions
+            //This function checks to see if the location has a match within the search string
+            if (locationName.indexOf(searchString) > -1 ) {
+                //This adds the location to the filtered location list
+                self.filteredLocationlist.push(self.locationList()[i]);
+                //This places the marker to the map
+                self.locationList()[i].marker().setMap(map);
+            } else {
+                //This sets the marker to null
+                self.locationList()[i].marker().setMap(null);
+            }
+        }
+    };
+
+  //This listener looks for the loading of the page and launches the following functions
     google.maps.event.addDomListener(window, 'load', function() {
         self.initialize();
         self.createLocations();
         self.locationClickFunc();
         self.filteredLocationlist(self.locationList());
-    });
-    
+    });  
 };
 
 //Launch everything :)    

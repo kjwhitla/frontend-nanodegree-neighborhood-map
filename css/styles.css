@@ -213,3 +213,14 @@ _:-ms-input-placeholder, :root .demo-graph {
       -ms-flex-align: center;
           align-items: center;
 }
+
+/* search fix */
+
+.mdl-search_fix{
+   
+}
+
+/*title fix */
+.mdl-layout-title {
+    padding-bottom: 10px;
+}
