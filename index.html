@@ -50,14 +50,12 @@
 <!--         -->
           <div class="mdl-layout-spacer"></div>
             
-             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+             
              <form id="location-search" class="" data-bind="submit: queryLocations">
-                 <input type="text" name="search-string" id="q" class="mdl-textfield__input mdl-search_fix" placeholder="Filter by name">
-                 <button type="submit" value="search" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-search_fix">Search</button>
+                 <input type="text" name="search-string" id="q" class="mdl-textfield__input mdl-search_fix" placeholder="Search by name"  style="display: inline;">
+                 <button type="submit" value="search" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored "  style="display: inline;">Search</button>
+                 <button type="text" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent " value="Refresh Page" onClick="window.location.reload()" style="display: inline;">Reset</button>
             </form>
-                 
-                 
-            </div>
 
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
             <i class="material-icons">more_vert</i>
@@ -97,6 +95,11 @@
       <script src="js/knockout-3.4.2.js" type="text/javascript" async></script>
       <!--call locations model -->
       <script src="js/model.js" type="text/javascript" async></script>
+      <!--FOURSQUARE AJAX -->
+      
+        <script type="text/javascript">
+        </script>
+      
       <!--call app view -->
       <script src="js/app.js" type="text/javascript" async></script>
       

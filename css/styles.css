@@ -215,12 +215,13 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 /* search fix */
-
-.mdl-search_fix{
-   
+.mdl-textfield__input {
+    width: auto !important;
+    padding-right: 20px;
+    margin-right: 20px;
 }
 
-/*title fix */
+/* title fix */
 .mdl-layout-title {
     padding-bottom: 10px;
 }

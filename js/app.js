@@ -11,6 +11,7 @@ var Location = function(data) {
     this.lat = ko.observable(data.lat);
     this.lng = ko.observable(data.lng);
     this.address = ko.observable(data.address);
+    this.fs_id = ko.observable(data.fs_id)
     
     marker = new google.maps.Marker({
         position: new google.maps.LatLng(this.lat(), this.lng()),
@@ -23,11 +24,14 @@ var Location = function(data) {
     this.marker = ko.observable(marker);
 };
 
+
+
 var LocationViewModel = function() {
     'use strict';
     var self = this;
     //This creates a location array
     self.locationList = ko.observableArray([]);
+
     
     //This creates a location array for search
     self.filteredLocationlist = ko.observableArray([]);
@@ -44,6 +48,10 @@ var LocationViewModel = function() {
         };
          map = new google.maps.Map(mapArea, mapOptions);
     };
+
+
+    
+    
     
     //This function creates a list of locations from the model.
     self.createLocations = function(){
@@ -63,18 +71,68 @@ var LocationViewModel = function() {
     
     //This function handles the clicking on a location
     self.locationClick = function(location) {
-        // Set the content for the information window
-        var locationContent = '<div><h5>' + location.name() + '</h5><p>' + location.address() + '</p></div>';
-        largeInfowindow.setContent(locationContent);
+         
+        //This gets and places the foursquare location id into a variable.
+        var fs_loc_id = location.fs_id();
+        var openArray =[];
+        var locationInfo ;
+        
+        console.log(fs_loc_id);
+        console.log('construct url');
+        var fs_url = "https://api.foursquare.com/v2/venues/" + fs_loc_id + "/hours?ll=37.762906,-122.244408&client_id=HHSAVK5VSRU5ANC041LORL3EVYNALVQUAOGXFK0EI2FFTAJD&client_secret=0W1QHH2UNTV2VDKN4RNJNHOWOT0A3XASURB55BQCB3YR4LDG&v=20170408"
+        console.log(fs_url);
+        console.log('get DATA')
+        $.ajax({
+                type: "GET",
+                url: fs_url,
+                dataType: "jsonp"
+            }).done(function (data) {
+                console.log('d0ne');
 
-        //This makes the viewpoint center on the location that you clicked
-        map.panTo(new google.maps.LatLng(location.lat(), location.lng()));
+                locationInfo = data.response.hours.timeframes[0];
+             
+                openArray.push(locationInfo);
 
-        //This open the information window when the marker is clicked
-        largeInfowindow.open(map, location.marker());
+            })
+            console.log(openArray);
+//            console.log(openArray.days[]);
+        //This constructs the query for Foursquare
+//        function fourSquareAjaxRequest () {
+//            console.log('ajax launched')
+            //Foursquare Ajax request gets the hours of the location
+//            var fs_url = "https://api.foursquare.com/v2/venues/" + fs_loc_id + "/hours?ll=37.762906,-122.244408&client_id=HHSAVK5VSRU5ANC041LORL3EVYNALVQUAOGXFK0EI2FFTAJD&client_secret=0W1QHH2UNTV2VDKN4RNJNHOWOT0A3XASURB55BQCB3YR4LDG&v=20170408"
+//            $.ajax({
+//                type: "GET",
+//                url: fs_url,
+//                dataType: "jsonp"
+//            }).done(function (data) {
+//                console.log('d0ne');
+//
+//                console.log(data.response.hours.timeframes[1]);
+//
+////                var locationInfo = data.response.hours.timeframes[1];
+//
+////                locations.forEach(function(location){
+////                     console.log(data.response.hours.timeframes[1]);
+////                })
+//            });
+//    }
+            if (typeof openArray !== 'undefined') {
+                // Set the content for the information window
+                var locationContent = '<div><h5>' + location.name() + '</h5><p>' + location.address() + '<br/>' + openArray.days +  '</p></div>';
+                largeInfowindow.setContent(locationContent);
 
-        // Current location marker will bounces once when clicked
-        self.setMarkerAnimation(location);
+                //This makes the viewpoint center on the location that you clicked
+                map.panTo(new google.maps.LatLng(location.lat(), location.lng()));
+
+                //This open the information window when the marker is clicked
+                largeInfowindow.open(map, location.marker());
+
+                // Current location marker will bounces once when clicked
+                self.setMarkerAnimation(location);
+                
+                
+            }
     };
     
     //This function will cause the current marker to bounce when clicked
@@ -108,13 +166,14 @@ var LocationViewModel = function() {
             }
         }
     };
-
+    
   //This listener looks for the loading of the page and launches the following functions
     google.maps.event.addDomListener(window, 'load', function() {
         self.initialize();
         self.createLocations();
         self.locationClickFunc();
         self.filteredLocationlist(self.locationList());
+   
     });  
 };
 
