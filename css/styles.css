@@ -225,3 +225,8 @@ _:-ms-input-placeholder, :root .demo-graph {
 .mdl-layout-title {
     padding-bottom: 10px;
 }
+
+/* search icon fix */
+.mdl-search-icon-fix{
+    padding-right: 5px;
+}

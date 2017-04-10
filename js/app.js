@@ -71,55 +71,57 @@ var LocationViewModel = function() {
     
     //This function handles the clicking on a location
     self.locationClick = function(location) {
+        
+        var openArray = [];
+        var locationInfo, hours, openEnd, openStart, openToday;
          
         //This gets and places the foursquare location id into a variable.
         var fs_loc_id = location.fs_id();
-        var openArray =[];
-        var locationInfo ;
-        
-        console.log(fs_loc_id);
-        console.log('construct url');
+       
+        //This constructs the query for the location
         var fs_url = "https://api.foursquare.com/v2/venues/" + fs_loc_id + "/hours?ll=37.762906,-122.244408&client_id=HHSAVK5VSRU5ANC041LORL3EVYNALVQUAOGXFK0EI2FFTAJD&client_secret=0W1QHH2UNTV2VDKN4RNJNHOWOT0A3XASURB55BQCB3YR4LDG&v=20170408"
-        console.log(fs_url);
-        console.log('get DATA')
+
+        
+        //This is the AJAX request
         $.ajax({
                 type: "GET",
                 url: fs_url,
-                dataType: "jsonp"
-            }).done(function (data) {
-                console.log('d0ne');
-
-                locationInfo = data.response.hours.timeframes[0];
-             
-                openArray.push(locationInfo);
-
+                dataType: "jsonp",
+                success: placeMarker
             })
-            console.log(openArray);
-//            console.log(openArray.days[]);
-        //This constructs the query for Foursquare
-//        function fourSquareAjaxRequest () {
-//            console.log('ajax launched')
-            //Foursquare Ajax request gets the hours of the location
-//            var fs_url = "https://api.foursquare.com/v2/venues/" + fs_loc_id + "/hours?ll=37.762906,-122.244408&client_id=HHSAVK5VSRU5ANC041LORL3EVYNALVQUAOGXFK0EI2FFTAJD&client_secret=0W1QHH2UNTV2VDKN4RNJNHOWOT0A3XASURB55BQCB3YR4LDG&v=20170408"
-//            $.ajax({
-//                type: "GET",
-//                url: fs_url,
-//                dataType: "jsonp"
-//            }).done(function (data) {
-//                console.log('d0ne');
-//
-//                console.log(data.response.hours.timeframes[1]);
-//
-////                var locationInfo = data.response.hours.timeframes[1];
-//
-////                locations.forEach(function(location){
-////                     console.log(data.response.hours.timeframes[1]);
-////                })
-//            });
-//    }
-            if (typeof openArray !== 'undefined') {
+        
+            function placeMarker(data) {
+              // Data received and processed here
+//                console.log('data response');
+                //This gets the data
+                locationInfo = data.response.popular; 
+                if (typeof locationInfo.timeframes['0'] !== 'undefined'){
+                openEnd = formatAMPM(locationInfo.timeframes[0].open[0].end);
+                openStart = formatAMPM(locationInfo.timeframes[0].open[0].start);
+                openToday = locationInfo.timeframes[0].includesToday;
+                } else {
+                    locationInfo = ""
+                }
+                
+                console.log(openStart);
+                  function formatAMPM(fourDigitTime) {
+                    var hours24 = parseInt(fourDigitTime.substring(0, 2),10);
+                    var hours = ((hours24 + 11) % 12) + 1;
+                    var amPm = hours24 > 11 ? 'pm' : 'am';
+                    var minutes = fourDigitTime.substring(2);
+                    return hours + ':' + minutes + amPm;
+                };
+                
+                
+                if(openToday == true){
+                    locationInfo = "Open today   |  " + openStart + " - " + openEnd;
+                } else{
+                    locationInfo = "No Information Availible";
+                }
+                
+                
                 // Set the content for the information window
-                var locationContent = '<div><h5>' + location.name() + '</h5><p>' + location.address() + '<br/>' + openArray.days +  '</p></div>';
+                var locationContent = '<div><h5>' + location.name() + '</h5><p>' + location.address() + '<br/>' + locationInfo + '</p></div>';
                 largeInfowindow.setContent(locationContent);
 
                 //This makes the viewpoint center on the location that you clicked
@@ -130,9 +132,10 @@ var LocationViewModel = function() {
 
                 // Current location marker will bounces once when clicked
                 self.setMarkerAnimation(location);
-                
-                
             }
+            
+                  
+
     };
     
     //This function will cause the current marker to bounce when clicked
