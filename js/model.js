@@ -46,11 +46,11 @@ var locations = [ {
 
 ,
 {
-    name: 'Yumi Sushi',
-    lat:'37.764834',
-    lng:'-122.242019',
-    address: '1428 Park St B, Alameda, CA 94501',
-    fs_id: '5413a35c498e740c654c1561'
+    name: 'Lucky 13 Bar and Grill',
+    lat:'37.76268383904291',
+    lng:'-122.24434256340915',
+    address: '1301 Park St, Alameda, CA 94501',
+    fs_id: '45ec4859f964a520a2431fe3'
 }
 
 ,

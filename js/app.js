@@ -25,7 +25,7 @@ var Location = function(data) {
 };
 
 
-
+//This is the View Model
 var LocationViewModel = function() {
     'use strict';
     var self = this;
@@ -38,7 +38,7 @@ var LocationViewModel = function() {
 
     //This function initializes and creates the google map
     self.initialize = function(){
-        //Create map options
+        //This defines and creates map options
         var mapArea = document.getElementById('map');
         var mapOptions ={
             center: {lat:  37.762906, lng: -122.244408},
@@ -48,9 +48,6 @@ var LocationViewModel = function() {
         };
          map = new google.maps.Map(mapArea, mapOptions);
     };
-
-
-    
     
     
     //This function creates a list of locations from the model.
@@ -72,8 +69,8 @@ var LocationViewModel = function() {
     //This function handles the clicking on a location
     self.locationClick = function(location) {
         
-        var openArray = [];
-        var locationInfo, hours, openEnd, openStart, openToday;
+        //This iniates a few variables we will use
+        var locationInfo, openEnd, openStart, openToday;
          
         //This gets and places the foursquare location id into a variable.
         var fs_loc_id = location.fs_id();
@@ -87,23 +84,42 @@ var LocationViewModel = function() {
                 type: "GET",
                 url: fs_url,
                 dataType: "jsonp",
-                success: placeMarker
-            })
+                success: placeMarker,
+                error: function (jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    alert(msg);
+            }})
         
+        //This function is triggered by the ajax request
             function placeMarker(data) {
-              // Data received and processed here
-//                console.log('data response');
-                //This gets the data
+               //This variable holds all the response data
                 locationInfo = data.response.popular; 
+                
+                //This checks to see if the variable has the information we are looking for.
                 if (typeof locationInfo.timeframes['0'] !== 'undefined'){
-                openEnd = formatAMPM(locationInfo.timeframes[0].open[0].end);
-                openStart = formatAMPM(locationInfo.timeframes[0].open[0].start);
-                openToday = locationInfo.timeframes[0].includesToday;
+                    openEnd = formatAMPM(locationInfo.timeframes[0].open[0].end);
+                    openStart = formatAMPM(locationInfo.timeframes[0].open[0].start);
+                    openToday = locationInfo.timeframes[0].includesToday;
                 } else {
-                    locationInfo = ""
+                    locationInfo = "";
                 }
                 
-                console.log(openStart);
+                //This function turns our military time to standard time and adds am/pm
                   function formatAMPM(fourDigitTime) {
                     var hours24 = parseInt(fourDigitTime.substring(0, 2),10);
                     var hours = ((hours24 + 11) % 12) + 1;
@@ -112,7 +128,7 @@ var LocationViewModel = function() {
                     return hours + ':' + minutes + amPm;
                 };
                 
-                
+                //This updates locationInfo before display
                 if(openToday == true){
                     locationInfo = "Open today   |  " + openStart + " - " + openEnd;
                 } else{
@@ -120,7 +136,7 @@ var LocationViewModel = function() {
                 }
                 
                 
-                // Set the content for the information window
+                //This set the current content for the information window
                 var locationContent = '<div><h5>' + location.name() + '</h5><p>' + location.address() + '<br/>' + locationInfo + '</p></div>';
                 largeInfowindow.setContent(locationContent);
 
@@ -130,7 +146,7 @@ var LocationViewModel = function() {
                 //This open the information window when the marker is clicked
                 largeInfowindow.open(map, location.marker());
 
-                // Current location marker will bounces once when clicked
+                //This makes the current location marker bounces once when clicked
                 self.setMarkerAnimation(location);
             }
             
@@ -180,5 +196,5 @@ var LocationViewModel = function() {
     });  
 };
 
-//Launch everything :)    
+//This launches everything :)    
 ko.applyBindings( new LocationViewModel() );
