@@ -166,23 +166,21 @@ function initMap() {
             }, 750);
         };
 
-        //This function handles the filtering of locations from the users search
-        self.queryLocations = function() {
+        //This makes the search bar ko observable
+        self.search = ko.observable('');
+
+        //This launches the location query as it is dependent on the self.search computed observable
+        self.queryLocations = ko.computed(function() {
             //This sets the filtered location list array to an empty array
             self.filteredLocationlist([]);
-            //This makes the searchbar input ko observable 
-            self.search = ko.observable(''); 
             //This places query into search string variable gets the search string and the length of the location list
             var searchString = self.search().toLowerCase();
-
-            console.log(searchString);
             var len = self.locationList().length;
 
             //This function loops through each location within the list
             for (var i = 0; i < len; i++) {
                 //This grabs the current name of the location
                 var locationName = self.locationList()[i].name().toLowerCase();
-
                 //This function checks to see if the location has a match within the search string
                 if (locationName.indexOf(searchString) > -1) {
                     //This adds the location to the filtered location list
@@ -193,25 +191,26 @@ function initMap() {
                     //This sets the marker to null
                     self.locationList()[i].marker().setMap(null);
                 }
+
             }
-        };
+        });
 
         //This initializes the functions
-            self.initialize();
-            self.createLocations();
-            self.locationClickFunc();
-            self.filteredLocationlist(self.locationList());
+        self.initialize();
+        self.createLocations();
+        self.locationClickFunc();
+        self.filteredLocationlist(self.locationList());
 
     };
 
     //This launches everything :)    
     ko.applyBindings(new LocationViewModel());
-//    console.log('finished');
+    //    console.log('finished');
 
 }
 
 function googleMapsError() {
     var errorMessage = "<h1>There is an error with Google Map at this moment. Please try again later!</h1>";
     alert(errorMessage);
-//    console.log('error');
+    //    console.log('error');
 }

@@ -51,17 +51,8 @@
                 <div class="mdl-layout-spacer"></div>
 
                 <i class="material-icons mdl-search-icon-fix">search</i>
-<!--
-                <form id="location-search" class="" >
-
-                    <input type="text" data-bind="textInput: queryLocations"f class="mdl-textfield__input mdl-search_fix" placeholder="Search by name" style="display: inline;">
--->
-<!--                    <button type="submit" name="search" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored " style="display: inline;">Search</button>-->
-<!--                    <button type="reset" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent " value="Refresh Page" onClick="window.location.reload()" style="display: inline;">Reset</button>-->
-<!--                </form>-->
                 <div id="location-search">
-                    <input type="text" data-bind="textInput: queryLocations"f class="mdl-textfield__input mdl-search_fix" placeholder="Search by name" style="display: inline;">
-                
+                    <input type="text" name="search" data-bind="textInput: search"  class="mdl-textfield__input mdl-search_fix" placeholder="Filter by name" style="display: inline;">                
                 </div>
 
                 <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
