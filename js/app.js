@@ -170,8 +170,12 @@ function initMap() {
         self.queryLocations = function() {
             //This sets the filtered location list array to an empty array
             self.filteredLocationlist([]);
-            //This gets the search string and the length of the location list
-            var searchString = $('#q').val().toLowerCase();
+            //This makes the searchbar input ko observable 
+            self.search = ko.observable(''); 
+            //This places query into search string variable gets the search string and the length of the location list
+            var searchString = self.search().toLowerCase();
+
+            console.log(searchString);
             var len = self.locationList().length;
 
             //This function loops through each location within the list
@@ -192,14 +196,12 @@ function initMap() {
             }
         };
 
-        //This listener looks for the loading of the page and launches the following functions
-        google.maps.event.addDomListener(window, 'load', function() {
+        //This initializes the functions
             self.initialize();
             self.createLocations();
             self.locationClickFunc();
             self.filteredLocationlist(self.locationList());
 
-        });
     };
 
     //This launches everything :)    
